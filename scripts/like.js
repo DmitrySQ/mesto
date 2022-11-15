@@ -1,7 +1,11 @@
 const likeStatus = document.querySelector(".element__button");
-
+// При написании querySelectorAll 7 строка выдает ошибку, что likeStatus не является функцией и к нему
+// невозможно применить обработчик событий. Скорее всего это происходит потому что кнопи находятся внутри обертки
+// каждой карточки, а не в общем потоке элементов и поэтомому querySelectorAll их не видит(возможно я ошибаюсь).
+// На данный момент я не могу придумать как изменить состояние всех карточек, но на первой карточке работает.
+// Естественно для более глубокой логики нужно использовать условие, но пока оставлю такой заготовкой просто с добавлением модификатора состояния.
 function changingTheState(){
   likeStatus.classList.toggle("element__button_active");
 }
 
-likeStatus.addEventListener("click", changingTheState);
+likeStatus.addEventListener("click", changingTheStat
