@@ -8,4 +8,4 @@ function changingTheState(){
   likeStatus.classList.toggle("element__button_active");
 }
 
-likeStatus.addEventListener("click", changingTheStat
+likeStatus.addEventListener("click", changingTheState);
