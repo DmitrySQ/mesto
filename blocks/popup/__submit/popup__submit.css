@@ -3,12 +3,28 @@
   height: 50px;
   color: #fff;
   background-color: black;
+  border: none;
+  border-radius: 2px;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
   text-align: center;
   cursor: pointer;
-  margin: 48px 0 37px;
+  margin-top: 48px;
   padding: 0;
+  transition: opacity 0.15s linear;
+}
+
+.popup__submit:hover{
+  opacity: 0.8;
+}
+
+@media screen and (max-width:590px){
+  .popup__submit{
+    width: 238px;
+    font-size: 14px;
+    line-height: 17px; 
+    height: 46px;
+  }
 }

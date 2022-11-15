@@ -9,8 +9,18 @@
   grid-area: button;
   cursor: pointer;
   transition: opacity 0.12s linear;
+  padding: 0;
 }
 
 .profile__edit-button:hover{
   opacity: 0.6;
+}
+
+@media screen and (max-width: 590px){
+  .profile__edit-button{
+    border: 1px solid #fff;
+    background-size: 7.5px;
+    width: 18px;
+    height: 18px;
+  }
 }

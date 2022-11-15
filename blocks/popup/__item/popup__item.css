@@ -11,9 +11,15 @@
   box-sizing: border-box;
   width: 358px;
   height: 27px;
-  padding: 0;
+  padding: 0 0 13px;
 }
 
 .popup__item:nth-last-of-type(1){
   margin-bottom: 0;
+}
+
+@media screen and (max-width: 590px){
+  .popup__item{
+    width: 238px;
+  }
 }

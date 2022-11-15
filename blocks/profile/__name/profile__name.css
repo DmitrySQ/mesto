@@ -6,3 +6,10 @@
   margin: 0;
   grid-area: name;
 }
+
+@media screen and (max-width: 745px){
+  .profile__name{
+    font-size: 27px;
+    line-height: 33px;
+  }
+}

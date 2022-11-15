@@ -5,4 +5,17 @@
   grid-column-gap: 17px;
   grid-auto-flow: row;
   margin: 0 0 67px;
+  justify-content: center;
+}
+
+@media screen and (max-width: 900px){
+  .elements{
+    grid-template-columns: repeat(2, 282px);
+  }
+}
+
+@media screen and (max-width: 590px){
+  .elements{
+    grid-template-columns: repeat(1, 282px);
+  }
 }

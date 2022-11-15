@@ -5,3 +5,10 @@
   box-sizing: border-box;
   margin-bottom: 40px;
 }
+
+@media screen and (max-width: 590px){
+  .header{
+    padding-left: 27px;
+    padding-bottom: 31px;
+  }
+}

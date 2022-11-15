@@ -11,5 +11,13 @@
   grid-template-areas: 
     "name button"
     "description .";
+}
 
+@media screen and (max-width: 590px){
+  .profile__info{
+    margin-left: 0;
+    margin-top: 26px;
+    grid-column-gap: 10px;
+    grid-row-gap: 14px;
+  }
 }

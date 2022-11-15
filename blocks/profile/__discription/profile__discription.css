@@ -6,3 +6,10 @@
   margin: 0;
   grid-area: description;
 }
+
+@media screen and (max-width: 745px){
+  .profile__description{
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
