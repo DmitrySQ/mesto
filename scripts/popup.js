@@ -6,7 +6,7 @@ const popup = document.querySelector(".popup");
 const popupButtonClose = popup.querySelector(".popup__button-close");
 const popupName = popup.querySelector(".popup__item_el_name");
 const popupDescription = popup.querySelector(".popup__item_el_description");
-const popupButtonSubmit = popup.querySelector(".popup__submit");
+const popupForm = popup.querySelector(".popup__form");
 
 function popupOpened() {
   popup.classList.add("popup_opened");
@@ -27,4 +27,4 @@ function popupSubmitHandler(evt) {
 
 editButton.addEventListener("click", popupOpened);
 popupButtonClose.addEventListener("click", popupClosed);
-popupButtonSubmit.addEventListener("click", popupSubmitHandler);
+popupForm.addEventListener("submit", popupSubmitHandler);

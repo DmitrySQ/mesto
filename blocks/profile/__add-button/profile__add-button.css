@@ -3,10 +3,11 @@
   height: 50px;
   border: 2px solid #fff;
   border-radius: 2px;
-  background-color: black;
+  background-color: #000;
   background-image: url("../../../images/add-button.svg");
   background-repeat: no-repeat;
   background-position: center;
+  background-size: 22px;
   cursor: pointer;
   margin-left: auto;
   transition: opacity 0.12s linear;

@@ -1,6 +1,8 @@
 .element__button{
   background-image: url("../../../images/heart.svg");
-  background-color: #fff;
+  background-color: transparent;
+  background-size: 22px;
+  background-repeat: no-repeat;
   width: 22px;
   height: 19px;
   border: none;
@@ -10,5 +12,5 @@
 }
 
 .element__button:hover{
-  opacity: 0.6;
+  opacity: 0.5;
 }
