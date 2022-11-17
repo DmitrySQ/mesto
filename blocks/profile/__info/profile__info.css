@@ -1,6 +1,6 @@
 .profile__info{
   display: grid;
-  grid-template-columns: 294px auto;
+  grid-template-columns: 1fr 24px;
   grid-template-rows: auto;
   align-items: center;
   justify-content: center;
@@ -12,11 +12,18 @@
     "description .";
 }
 
+@media screen and (max-width: 745px){
+  .profile__info{
+    grid-template-columns: 200px auto;
+  }
+}
 @media screen and (max-width: 590px){
   .profile__info{
+    grid-template-columns: 1fr 18px;
     margin-left: 0;
     margin-top: 26px;
     grid-column-gap: 10px;
-    grid-row-gap: 14px;
+    grid-row-gap: 9px;
+    padding-left: 29px;
   }
 }
