@@ -8,6 +8,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 294px;
 }
 
 @media screen and (max-width: 745px){
@@ -20,5 +21,6 @@
 @media screen and (max-width: 590px){
   .profile__description{
     justify-self: center;
+    max-width: 189px;
   }
 }
