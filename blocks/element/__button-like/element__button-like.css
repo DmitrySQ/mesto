@@ -1,4 +1,4 @@
-.element__button{
+.element__button-like{
   background-image: url("../../../images/heart.svg");
   background-color: transparent;
   background-size: 22px 19px;
@@ -11,6 +11,6 @@
   transition: opacity 0.12s linear;
 }
 
-.element__button:hover{
+.element__button-like:hover{
   opacity: 0.5;
 }
