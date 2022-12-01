@@ -82,13 +82,15 @@ function addPopupCreateHandler(evt) {
   };
   const element = createCards(card);
   elementsList.prepend(element);
+  closePopup(popupAdd);
 }
-//
+//открытие карточек
 const imgPopupBigDeal = function (item){
   popupImage.setAttribute("src", item.link);
   popupImage.setAttribute("alt", item.link);
   popupTitle.textContent = item.name;
   openPopup(imgPopup);
+  
 }
 
 buttonEdit.addEventListener("click", function() {
