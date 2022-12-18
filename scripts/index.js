@@ -114,3 +114,4 @@ imgPopupButtonClose.addEventListener("click", function() {
 
 popupEditForm.addEventListener("submit", editPopupSubmitHandler);
 popupAddForm.addEventListener("submit", addPopupCreateHandler);
+
