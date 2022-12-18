@@ -1,9 +1,17 @@
 .popup__error{
   align-self: flex-start;
-  font-style: normal;
   font-weight: 400;
   font-size: 12px;
-  line-height: 15px;
+  line-height: 1.15;
   color: #FF0000;
-  visibility: hidden;
+  padding: 0;
+  margin: 3px 0 0;
+  max-width: 358px;
+  height: 27px;
+}
+
+@media screen and (max-width: ) {
+  .popup__error{
+    max-width: 238px;
+  }
 }

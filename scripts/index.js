@@ -56,6 +56,7 @@ initialCards.forEach((item) =>{
 //открытие попапов
 const openPopup = function(item){
   item.classList.add("popup_opened");
+  document.addEventListener('keyup', handleKeyUp);
 }
 //открытие попапа редактирования
 const openEditPopup = function(){
@@ -65,6 +66,7 @@ const openEditPopup = function(){
 //закрытие
 const closePopup = function (item) {
   item.classList.remove("popup_opened");
+  document.removeEventListener('keyup', handleKeyUp)
 }
 //обработчик редактирования
 function editPopupSubmitHandler(evt) {
@@ -93,6 +95,15 @@ const imgPopupBigDeal = function (item){
   
 }
 
+//закрытие на "ESC"
+
+const handleKeyUp = (e) => {
+  if (e.key === 'Escape'){
+    const popupOpened = document.querySelector(".popup_opened");
+    closePopup(popupOpened);
+  }
+}
+
 buttonEdit.addEventListener("click", function() {
   openEditPopup();
   openPopup(popupEdit);
@@ -110,6 +121,26 @@ popupAddButtonClose.addEventListener("click", function() {
 
 imgPopupButtonClose.addEventListener("click", function() {
   closePopup(imgPopup);
+})
+//оверлей реадиктирование
+popupEdit.addEventListener('click', (e) => {
+  if (!e.target.closest('.popup__container')){
+    closePopup(popupEdit)
+  }
+})
+
+//оверлей добавления карточки
+popupAdd.addEventListener('click', (e) => {
+  if (!e.target.closest('.popup__container')){
+    closePopup(popupAdd)
+  }
+})
+
+//оверлей картинка
+imgPopup.addEventListener('click', (e) => {
+  if (!e.target.closest('.popup__img-container')){
+    closePopup(imgPopup)
+  }
 })
 
 popupEditForm.addEventListener("submit", editPopupSubmitHandler);

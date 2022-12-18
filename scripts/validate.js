@@ -3,7 +3,7 @@ const config = {
   inputSelector: '.popup__item',
   submitButtonSelector: '.popup__button-submit',
   inactiveButtonClass: 'popup__button-submit_disabled',
-  inputErrorClass: 'popup__error',
+  inputErrorClass: '.popup__error',
   errorClass: 'popup__error_visible'
 }; 
 //показ ошибки
@@ -27,8 +27,7 @@ const hasInvalidInput = (inputList) => {
   })
 }
 
-const toogleButtonState = (config, formElement, buttonElement) => {
-  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+const toogleButtonState = (config, inputList, buttonElement) => {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(config.inactiveButtonClass);
     buttonElement.setAttribute('disabled', true);
@@ -49,7 +48,7 @@ const checkInputValidity = (config, formElement, inputElement) => {
 const setEventListeners = (config, formElement) => {
   const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
-  toogleButtonState(config, formElement, buttonElement);
+  toogleButtonState(config, inputList, buttonElement);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function(){
       checkInputValidity(config, formElement, inputElement);
