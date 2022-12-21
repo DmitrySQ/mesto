@@ -87,7 +87,9 @@ function addPopupCreateHandler(evt) {
   const element = createCard(card);
   elementsList.prepend(element);
   closePopup(popupAdd);
-  document.removeEventListener("click", addPopupCreateHandler);
+  popupAddTitle.value = "";
+  popupAddLink.value = "";
+  popupAddButtonCreate.setAttribute('disabled', true);
 }
 //открытие карточек
 const imgPopupBigDeal = function (item){
@@ -127,20 +129,16 @@ imgPopupButtonClose.addEventListener("click", function() {
 })
 
 //оверлей
-const popupOverlay = (e) => {
+const setOverlayCloseListener = (e) => {
   e.addEventListener('click', (evt) =>{
     if (!evt.target.closest('.popup__container')){
       closePopup(e)
     }
   })
 }
-popupOverlay(popupEdit);
-popupOverlay(popupAdd);
-popupOverlay(imgPopup);
-
-popupEdit.addEventListener('click', popupOverlay);
-popupAdd.addEventListener('click', popupOverlay);
-imgPopup.addEventListener('click', popupOverlay);
+setOverlayCloseListener(popupEdit);
+setOverlayCloseListener(popupAdd);
+setOverlayCloseListener(imgPopup);
 
 popupEditForm.addEventListener("submit", editPopupSubmitHandler);
 popupAddForm.addEventListener("submit", addPopupCreateHandler);
