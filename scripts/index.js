@@ -90,6 +90,7 @@ function addPopupCreateHandler(evt) {
   popupAddTitle.value = "";
   popupAddLink.value = "";
   popupAddButtonCreate.setAttribute('disabled', true);
+  popupAddButtonCreate.classList.add(config.inactiveButtonClass);
 }
 //открытие карточек
 const imgPopupBigDeal = function (item){
@@ -97,7 +98,6 @@ const imgPopupBigDeal = function (item){
   popupImage.setAttribute("alt", item.name);
   popupTitle.textContent = item.name;
   openPopup(imgPopup);
-  
 }
 
 //закрытие на "ESC"
@@ -129,10 +129,10 @@ imgPopupButtonClose.addEventListener("click", function() {
 })
 
 //оверлей
-const setOverlayCloseListener = (e) => {
-  e.addEventListener('click', (evt) =>{
-    if (!evt.target.closest('.popup__container')){
-      closePopup(e)
+const setOverlayCloseListener = (popup) => {
+  popup.addEventListener('click', (evt) =>{
+    if (evt.target.classList.contains('popup')){
+      closePopup(popup)
     }
   })
 }
