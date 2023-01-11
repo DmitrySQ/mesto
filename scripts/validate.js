@@ -1,3 +1,4 @@
+
 export class Validate {
   constructor (config, formElement){
     this._formSelector = config.formSelector;
@@ -51,17 +52,16 @@ export class Validate {
   }
 
   _setEventListeners () {
-    const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
-    this._toogleButtonState(this._inputList, buttonElement);
+    this._toogleButtonState(this._inputList, this._submitButton);
     this._inputList.forEach((inputElement) => {
-      inputElement.addEventListener('input', function() {
+      inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this._toogleButtonState(this._inputList, buttonElement);
+        this._toogleButtonState(this._inputList, this._submitButton);
       })
     })
   }
 
   enableValidation() {
-      this._setEventListeners();
+    this._setEventListeners();
   }
 }
