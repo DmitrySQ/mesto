@@ -1,4 +1,7 @@
-const popups = document.querySelectorAll(".popup");
+import {Card} from  "./card.js";
+import { initialCards } from "./data.js";
+import { config } from "./data.js";
+import { Validate } from "./validate.js";
 
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
@@ -20,43 +23,21 @@ const popupAddTitle = popupAdd.querySelector(".popup__item_el_title");
 const popupAddLink = popupAdd.querySelector(".popup__item_el_link");
 
 // картинки
-const imgPopup = document.querySelector(".popup_img");
-const popupImage = imgPopup.querySelector(".popup__image");
-const popupTitle = imgPopup.querySelector(".popup__title")
+export const imgPopup = document.querySelector(".popup_img");
+export const popupImage = imgPopup.querySelector(".popup__image");
+export const popupTitle = imgPopup.querySelector(".popup__title")
 const imgPopupButtonClose = document.getElementById("popup-img-button-close");
 
 //отрисовка карточек
-const elementsList = document.querySelector(".elements");
-const elementTemplate = document.querySelector("#element-template").content.querySelector(".element");
-function createCard (item){
-  const card = elementTemplate.cloneNode(true);
-  const cardImage = card.querySelector(".element__image");
-  const cardTitle = card.querySelector(".element__title");
-  const cardDeleteButton = card.querySelector(".element__button-trash");
-  const cardLikeButton = card.querySelector(".element__button-like");
-  cardDeleteButton.addEventListener("click", deleteCard);
-  cardLikeButton.addEventListener("click", likeCard);
-  cardImage.setAttribute("src", item.link);
-  cardImage.setAttribute("alt", item.name);
-  cardTitle.textContent = item.name;
-  cardImage.addEventListener("click", function() {
-    imgPopupBigDeal(item)
-  });
-  return card;
-};
-const likeCard = function(e){
-  e.target.classList.toggle("element__button_active");
-};
-const deleteCard = function(e){
-  e.target.closest(".element").remove();
-};
+
 //Перебор массива
 initialCards.forEach((item) =>{
-  const element = createCard(item);
-  elementsList.append(element);
+  const element = new Card(item.name, item.link, '#element-template');
+  const cardElement = element.generateCard();
+  document.querySelector('.elements').append(cardElement);
 })
 //открытие попапов
-const openPopup = function(item){
+export const openPopup = function(item){
   item.classList.add("popup_opened");
   document.addEventListener('keyup', handleKeyUp);
 }
@@ -84,22 +65,15 @@ function addPopupCreateHandler(evt) {
     name: popupAddTitle.value,
     link: popupAddLink.value
   };
-  const element = createCard(card);
-  elementsList.prepend(element);
+  const element = new Card(card.name, card.link, '#element-template');
+  const cardElement = element.generateCard();
+  document.querySelector('.elements').prepend(cardElement);
   closePopup(popupAdd);
   popupAddTitle.value = "";
   popupAddLink.value = "";
   popupAddButtonCreate.setAttribute('disabled', true);
   popupAddButtonCreate.classList.add(config.inactiveButtonClass);
 }
-//открытие карточек
-const imgPopupBigDeal = function (item){
-  popupImage.setAttribute("src", item.link);
-  popupImage.setAttribute("alt", item.name);
-  popupTitle.textContent = item.name;
-  openPopup(imgPopup);
-}
-
 //закрытие на "ESC"
 
 const handleKeyUp = (e) => {
@@ -143,3 +117,8 @@ setOverlayCloseListener(imgPopup);
 popupEditForm.addEventListener("submit", editPopupSubmitHandler);
 popupAddForm.addEventListener("submit", addPopupCreateHandler);
 
+//валидация 
+const popupEditValidation = new Validate (config, popupEdit);
+popupEditValidation.enableValidation();
+const popupAddValidation = new Validate (config, popupAdd);
+popupAddValidation.enableValidation();
