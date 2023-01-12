@@ -1,11 +1,9 @@
-import { openPopup, imgPopup, popupImage, popupTitle } from "./index.js";
-
-
 export class Card {
-  constructor(name, link, templateSelector){
+  constructor(name, link, templateSelector, handleOpenPopupImage){
     this._name = name;
     this._link = link;
     this._templateSelector = templateSelector;
+    this._handleOpenPopupImage = handleOpenPopupImage;
   }
 
   _getTemplate(){
@@ -22,25 +20,15 @@ export class Card {
   }
 
   _handleDeleteCard(){
-    this._element.querySelector('.element__button-trash').closest(".element").remove();
-  }
-
-  _handleOpenPopup(){
-    openPopup(imgPopup);
-    popupImage.src = this._link;
-    popupImage.alt = this._name;
-    popupTitle.textContent = this._name;
-  }
-
-  _handleClosePopup(){
-    popupImage.src = '';
-    popupImage.classList.remove("popup_opened");
+    this._element.remove();
   }
 
   generateCard(){
     this._element = this._getTemplate();
-    this._element.querySelector(".element__image").src = this._link;
-    this._element.querySelector(".element__title").alt = this._name;
+    this._elementImage = this._element.querySelector(".element__image");
+
+    this._elementImage.src = this._link;
+    this._elementImage.alt = this._name;
     this._element.querySelector(".element__title").textContent = this._name;
     
     this._setIventListeners();
@@ -54,8 +42,9 @@ export class Card {
     this._element.querySelector('.element__button-trash').addEventListener('click', () => {
       this._handleDeleteCard()
     })
-    this._element.querySelector('.element__image').addEventListener('click', () => {
-      this._handleOpenPopup()
+    this._elementImage.addEventListener('click', () => {
+      console.log(this._elementImage)
+      this._handleOpenPopupImage(this._name, this._link);
     })
   }
 }

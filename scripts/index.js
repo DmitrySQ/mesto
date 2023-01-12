@@ -1,15 +1,15 @@
-import {Card} from  "./card.js";
-import { initialCards } from "./data.js";
-import { config } from "./data.js";
-import { Validate } from "./validate.js";
+import {Card} from  "./Card.js";
+import { initialCards, config } from "./Data.js";
+import { FormValidator } from "./FormValidator.js";
 
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 const buttonEdit = document.querySelector(".profile__edit-button");
+const sectionElements = document.querySelector(".elements");
 // профиль
 const popupEdit = document.querySelector(".popup_edit");
 const buttonAdd = document.querySelector(".profile__add-button");
-const popupButtonClose = popupEdit.querySelector(".popup__button-close");
+const popupEditButtonClose = popupEdit.querySelector(".popup__button-close");
 const popupName = popupEdit.querySelector(".popup__item_el_name");
 const popupDescription = popupEdit.querySelector(".popup__item_el_description");
 const popupEditForm = popupEdit.querySelector(".popup__form");
@@ -23,21 +23,25 @@ const popupAddTitle = popupAdd.querySelector(".popup__item_el_title");
 const popupAddLink = popupAdd.querySelector(".popup__item_el_link");
 
 // картинки
-export const imgPopup = document.querySelector(".popup_img");
-export const popupImage = imgPopup.querySelector(".popup__image");
-export const popupTitle = imgPopup.querySelector(".popup__title")
+const imgPopup = document.querySelector(".popup_img");
+const popupImage = imgPopup.querySelector(".popup__image");
+const popupTitle = imgPopup.querySelector(".popup__title")
 const imgPopupButtonClose = document.getElementById("popup-img-button-close");
 
-//отрисовка карточек
+//Функция создания карточки
+const createCard = (item, elementsZone) =>{
+  const element = new Card(item.name, item.link, '#element-template', handleOpenPopupImage);
+  const cardElement = element.generateCard();
+  
+  elementsZone.prepend(cardElement);
+}
 
 //Перебор массива
 initialCards.forEach((item) =>{
-  const element = new Card(item.name, item.link, '#element-template');
-  const cardElement = element.generateCard();
-  document.querySelector('.elements').append(cardElement);
+  createCard(item, sectionElements);
 })
 //открытие попапов
-export const openPopup = function(item){
+const openPopup = function(item){
   item.classList.add("popup_opened");
   document.addEventListener('keyup', handleKeyUp);
 }
@@ -46,6 +50,15 @@ const openEditPopup = function(){
   popupName.value = profileName.textContent;
   popupDescription.value = profileDescription.textContent;
 }
+
+//открытие попапа карточки
+function handleOpenPopupImage(name, link) {
+  popupImage.src = link;
+  popupImage.alt = name;
+  popupTitle.textContent = name;
+  openPopup(imgPopup);
+}
+
 //закрытие
 const closePopup = function (item) {
   item.classList.remove("popup_opened");
@@ -65,9 +78,7 @@ function addPopupCreateHandler(evt) {
     name: popupAddTitle.value,
     link: popupAddLink.value
   };
-  const element = new Card(card.name, card.link, '#element-template');
-  const cardElement = element.generateCard();
-  document.querySelector('.elements').prepend(cardElement);
+  createCard(card, sectionElements);
   closePopup(popupAdd);
   popupAddTitle.value = "";
   popupAddLink.value = "";
@@ -91,7 +102,7 @@ buttonAdd.addEventListener("click", function() {
   openPopup(popupAdd);
 });
 
-popupButtonClose.addEventListener("click", function() {
+popupEditButtonClose.addEventListener("click", function() {
   closePopup(popupEdit);
 });
 popupAddButtonClose.addEventListener("click", function() {
@@ -118,7 +129,7 @@ popupEditForm.addEventListener("submit", editPopupSubmitHandler);
 popupAddForm.addEventListener("submit", addPopupCreateHandler);
 
 //валидация 
-const popupEditValidation = new Validate (config, popupEdit);
+const popupEditValidation = new FormValidator (config, popupEdit);
 popupEditValidation.enableValidation();
-const popupAddValidation = new Validate (config, popupAdd);
+const popupAddValidation = new FormValidator (config, popupAdd);
 popupAddValidation.enableValidation();
