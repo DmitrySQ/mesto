@@ -1,5 +1,5 @@
 import {Card} from  "./Card.js";
-import { initialCards, config } from "./Data.js";
+import { initialCards, config } from "./data.js";
 import { FormValidator } from "./FormValidator.js";
 
 const profileName = document.querySelector(".profile__name");
@@ -82,8 +82,7 @@ function addPopupCreateHandler(evt) {
   closePopup(popupAdd);
   popupAddTitle.value = "";
   popupAddLink.value = "";
-  popupAddButtonCreate.setAttribute('disabled', true);
-  popupAddButtonCreate.classList.add(config.inactiveButtonClass);
+  popupAddValidation.disabledSubmitButton();
 }
 //закрытие на "ESC"
 
