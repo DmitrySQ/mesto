@@ -1,5 +1,5 @@
 
-import { Card } from "./Card.js";
+import { Card } from "./card.js";
 import { initialCards, config } from "./data.js";
 import { Section } from "./Section.js";
 import { FormValidator } from "./FormValidator.js";
@@ -21,8 +21,7 @@ const popupName = popupEdit.querySelector(".popup__item_el_name");
 const popupDescription = popupEdit.querySelector(".popup__item_el_description");
 
 // Попап добавления карточки
-const popupCard = document.querySelector(".popup-add")
-
+const popupCard = document.querySelector(".popup-add");
 // Создание карточки
 const createCard = (item) =>{
   const element = new Card(item.name, item.link, '#element-template', handleOpenPopupImage);
