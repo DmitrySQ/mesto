@@ -43,7 +43,6 @@ export class Card {
       this._handleDeleteCard()
     })
     this._elementImage.addEventListener('click', () => {
-      console.log(this._elementImage)
       this._handleOpenPopupImage(this._name, this._link);
     })
   }
