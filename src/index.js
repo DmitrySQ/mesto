@@ -1,11 +1,12 @@
 
-import { Card } from "./card.js";
-import { initialCards, config } from "./data.js";
-import { Section } from "./Section.js";
-import { FormValidator } from "./FormValidator.js";
-import { PopupWithImage } from "./PopupWithImage.js";
-import { PopupWithForm } from "./PopupWithForm.js";
-import { UserInfo } from "./UserInfo.js";
+import { Card } from "./components/card.js";
+import { initialCards, config } from "./components/data.js";
+import { Section } from "./components/Section.js";
+import { FormValidator } from "./components/FormValidator.js";
+import { PopupWithImage } from "./components/PopupWithImage.js";
+import { PopupWithForm } from "./components/PopupWithForm.js";
+import { UserInfo } from "./components/UserInfo.js";
+import './index.css';
 
 // Секция для добавления карточек
 const sectionElements = document.querySelector(".elements");

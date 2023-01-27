@@ -1,0 +1,36 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "Главные отличия проекта \"Место\" от \"Путешествия по России\" является то, что в этом проекте применяются интересные\r состояния у элементов и появилась обработка формы. Например сейчас можно при вызове формы редактирования можно изменить имя своего аккаунта, а так же информацию о себе. Так же из небольших фишек является то, что текст не переполняется в карточках, а сворачивается в троеточие.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DmitrySQ/mesto.git"
+  },
+  "author": "DmitrySQ",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DmitrySQ/mesto/issues"
+  },
+  "homepage": "https://github.com/DmitrySQ/mesto#readme",
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "autoprefixer": "^10.4.13",
+    "babel-loader": "^9.1.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.3",
+    "cssnano": "^5.1.14",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "postcss-loader": "^7.0.2",
+    "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {
+    "core-js": "^3.27.2"
+  }
+}
