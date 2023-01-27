@@ -74,7 +74,7 @@ const popupImage = new PopupWithImage(".popup_img");
 
 // Функция обработчика сабмита попапа профиля 
 function editPopupSubmitHandler(values) {
-  userInfo.setUserInfo(values.name, values.decription)
+  userInfo.setUserInfo(values.name, values.description)
   popupProfile.close();
 }
 
@@ -82,7 +82,7 @@ function editPopupSubmitHandler(values) {
 buttonEdit.addEventListener("click", function() {
   const userData = userInfo.getUserInfo();
   popupName.value = userData.name;
-  popupDescription.value = userData.decription;
+  popupDescription.value = userData.description;
   popupProfile.open();
 });
 
