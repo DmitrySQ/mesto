@@ -1,4 +1,4 @@
-export const config = {
+export const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__item',
   submitButtonSelector: '.popup__button-submit',
@@ -33,3 +33,7 @@ export const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+
+// Секция для добавления карточек
+export const sectionElements = document.querySelector(".elements");

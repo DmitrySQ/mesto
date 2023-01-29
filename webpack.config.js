@@ -26,8 +26,18 @@ module.exports = {
         exclude: '/node_modules/'
       },
       {
-        test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
+        test: /\.(woff(2)?|eot|ttf|otf)$/,
         type: 'asset/resource',
+        generator: {
+          filename: 'assets/fonts/[name][ext]'
+        }
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/images/[name][ext]'
+        } 
       },
       {
         test: /\.css$/,

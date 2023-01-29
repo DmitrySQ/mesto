@@ -1,6 +1,6 @@
 
-import { Card } from "./components/card.js";
-import { initialCards, config } from "./components/data.js";
+import { Card } from "./components/Card.js";
+import { initialCards, validationConfig, sectionElements } from "./components/data.js";
 import { Section } from "./components/Section.js";
 import { FormValidator } from "./components/FormValidator.js";
 import { PopupWithImage } from "./components/PopupWithImage.js";
@@ -8,8 +8,6 @@ import { PopupWithForm } from "./components/PopupWithForm.js";
 import { UserInfo } from "./components/UserInfo.js";
 import './index.css';
 
-// Секция для добавления карточек
-const sectionElements = document.querySelector(".elements");
 // Элементы профиля
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
@@ -24,18 +22,18 @@ const popupDescription = popupEdit.querySelector(".popup__item_el_description");
 // Попап добавления карточки
 const popupCard = document.querySelector(".popup-add");
 // Создание карточки
-const createCard = (item) =>{
-  const element = new Card(item.name, item.link, '#element-template', handleOpenPopupImage);
+const createCard = (cardData) =>{
+  const element = new Card(cardData, '#element-template', handleOpenPopupImage);
   const cardElement = element.generateCard();
   
   return cardElement;
 }
 
 //Рендер карточек
-const cardList = new Section({
+const cardSection = new Section({
   renderer: (item) => {
     const cardElement = createCard (item, sectionElements);
-    cardList.addItem(cardElement);
+    cardSection.addItem(cardElement);
   }
 }, sectionElements);
 
@@ -44,67 +42,71 @@ initialCards.forEach((item) =>{
   createCard(item, sectionElements);
 })
 //Рендер карточек из массива
-cardList.renderItems(initialCards);
-
-//Добавление карточки через форму
-const addPopupCreateHandler = (values) => {
-  const card = {
-    name: values.title,
-    link: values.link
-  };
-  const newCard = createCard(card, sectionElements);
-  cardList.addItem(newCard);
-  popupAdd.close();
-  popupAddValidation.disabledSubmitButton();
-}
+cardSection.renderItems(initialCards);
 
 // Экземпляр класса попапа добавления карточек
-const popupAdd = new PopupWithForm(".popup-add", addPopupCreateHandler);
+const popupAdd = new PopupWithForm(".popup-add", handleCardFormSubmit);
 
 // Экземпляр класса попапа профиля
-const popupProfile = new PopupWithForm(".popup_edit", editPopupSubmitHandler);
+const popupProfile = new PopupWithForm(".popup_edit", handleProfileFormSubmit);
 
 // Экземпляр класса информации о пользователе
 const userInfo = new UserInfo ({
-  nameSelector: profileName, 
-  infoSelector: profileDescription
+  nameElement: profileName, 
+  infoElement: profileDescription
 });
 
 // Экземпляр класса попапа картинки
 const popupImage = new PopupWithImage(".popup_img");
 
+// Экземпляры классов валидации форм попапов
+const popupEditValidation = new FormValidator (validationConfig, popupEdit);
+popupEditValidation.enableValidation();
+const popupAddValidation = new FormValidator (validationConfig, popupCard);
+popupAddValidation.enableValidation();
+
+//Добавление карточки через форму
+const handleCardFormSubmit = (values) => {
+  const card = {
+    name: values.title,
+    link: values.link
+  };
+  const newCard = createCard(card, sectionElements);
+  cardSection.addItem(newCard);
+  popupAdd.close();
+  popupAddValidation.disableSubmitButton();
+}
+
 // Функция обработчика сабмита попапа профиля 
-function editPopupSubmitHandler(values) {
+function handleProfileFormSubmit(values) {
   userInfo.setUserInfo(values.name, values.description)
   popupProfile.close();
 }
 
-// Слушатель открытия и функция добавления информации из профиля в инпуты
-buttonEdit.addEventListener("click", function() {
+// Функция добавления информации из профиля в инпуты
+function handleProfileFormOpen() {
   const userData = userInfo.getUserInfo();
   popupName.value = userData.name;
   popupDescription.value = userData.description;
   popupProfile.open();
-});
+}
+// Слушатель открытия попапа профиля
+buttonEdit.addEventListener("click", handleProfileFormOpen);
 
 // Функция открытия попапа картинки
 function handleOpenPopupImage(name, link) {
   popupImage.open(name, link);
 }
 
-// Слушатели закрытий
-popupProfile.setEventListeners();
-popupAdd.setEventListeners();
-popupImage.setEventListeners();
-
 // Слушатель открытия попапа добавления карточки
 buttonAdd.addEventListener("click", function() {
   popupAdd.open();
 });
 
-// Экземпляры классов валидации форм попапов
-const popupEditValidation = new FormValidator (config, popupEdit);
-popupEditValidation.enableValidation();
-const popupAddValidation = new FormValidator (config, popupCard);
-popupAddValidation.enableValidation();
+// Слушатели закрытий
+popupProfile.setEventListeners();
+popupAdd.setEventListeners();
+popupImage.setEventListeners();
+
+
 
