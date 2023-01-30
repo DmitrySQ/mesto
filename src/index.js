@@ -1,6 +1,6 @@
 
 import { Card } from "./components/Card.js";
-import { initialCards, validationConfig, sectionElements } from "./components/data.js";
+import { initialCards, validationConfig, sectionElements } from "./utils/data.js";
 import { Section } from "./components/Section.js";
 import { FormValidator } from "./components/FormValidator.js";
 import { PopupWithImage } from "./components/PopupWithImage.js";
@@ -66,7 +66,7 @@ const popupAddValidation = new FormValidator (validationConfig, popupCard);
 popupAddValidation.enableValidation();
 
 //Добавление карточки через форму
-const handleCardFormSubmit = (values) => {
+function handleCardFormSubmit (values) {
   const card = {
     name: values.title,
     link: values.link

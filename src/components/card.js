@@ -16,7 +16,7 @@ export class Card {
   }
 
   _handleLikeCard(){
-    this._likeButton.classList.toggle("element__button_active");
+    this._buttonLike.classList.toggle("element__button_active");
   }
 
   _handleDeleteCard(){
@@ -37,12 +37,12 @@ export class Card {
     return this._element;
   }
   _setIventListeners() {
-    this._likeButton = this._element.querySelector('.element__button-like');
-    this._likeButton.addEventListener('click', () => {
+    this._buttonLike = this._element.querySelector('.element__button-like');
+    this._buttonLike.addEventListener('click', () => {
       this._handleLikeCard()
     })
-    this._deleteButton = this._element.querySelector('.element__button-trash');
-    this._deleteButton.addEventListener('click', () => {
+    this._buttonDelete = this._element.querySelector('.element__button-trash');
+    this._buttonDelete.addEventListener('click', () => {
       this._handleDeleteCard()
     })
     this._elementImage.addEventListener('click', () => {
