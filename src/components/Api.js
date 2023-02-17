@@ -1,11 +1,6 @@
 
 export class Api {
-  handleResponse(res) {
-    if (res.ok) {
-      return res.json()
-    }
-    return Promise.reject(`Ошибка: ${res.status}`)
-  }
+  
 }
 // Проверка ответа от сервера
 const handleResponse = (res) => {

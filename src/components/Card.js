@@ -24,7 +24,7 @@ export class Card {
     this._buttonLike.classList.toggle("element__button_active");
   }
 
-  _handleDeleteCard(){
+  handleDeleteCard(){
     this._element.remove();
     this._element = null;
   }

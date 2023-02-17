@@ -69,7 +69,7 @@ const popupDelete = new PopupConfirm(".popup_delete", handleDeleteCardFormSubmit
 // Экземпляр класса попапа картинки
 const popupImage = new PopupWithImage(".popup_img");
 
-const api = new Api();
+
 // Экземпляры классов валидации форм попапов
 const popupEditValidation = new FormValidator (validationConfig, popupEdit);
 popupEditValidation.enableValidation();
@@ -106,7 +106,7 @@ const handleDeleteCardFormSubmit = (evt, card) => {
   deleteCard(card._id)
     .then(() => {
       console.log(card._id)
-      card._handleDeleteCard();
+      card.handleDeleteCard();
       popupDelete.close();
   })
 }
