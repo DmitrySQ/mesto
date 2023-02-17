@@ -1,11 +1,13 @@
 
 import { Card } from "../components/Card.js";
-import { initialCards, validationConfig, sectionElements } from "../utils/data.js";
+import { validationConfig, sectionElements } from "../utils/data.js";
 import { Section } from "../components/Section.js";
 import { FormValidator } from "../components/FormValidator.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
+import { PopupConfirm } from "../components/PopupConfirm.js";
 import { UserInfo } from "../components/UserInfo.js";
+import { Api, getUser,getCards, addCard, editProfile, deleteCard} from "../components/Api.js";
 import './index.css';
 
 // Элементы профиля
@@ -21,11 +23,29 @@ const popupDescription = popupEdit.querySelector(".popup__item_el_description");
 
 // Попап добавления карточки
 const popupCard = document.querySelector(".popup-add");
+
+let userId;
+getCards()
+  .then(res => {
+    cardSection.renderItems(res.reverse());
+    console.log(res)
+  })
+
+getUser()
+  .then(res => {
+    userInfo.setUserInfo(res.name, res.about, res._id)
+  })
+
+  // Экземпляр класса информации о пользователе
+const userInfo = new UserInfo ({
+  nameElement: profileName, 
+  infoElement: profileDescription
+});
 // Создание карточки
 const createCard = (cardData) =>{
-  const element = new Card(cardData, '#element-template', handleOpenPopupImage);
+  const element = new Card(cardData, '#element-template', handleOpenPopupImage, handlePopupDeleteOpen, userInfo.getID());
   const cardElement = element.generateCard();
-  
+  console.log(userInfo.getID())
   return cardElement;
 }
 
@@ -37,50 +57,58 @@ const cardSection = new Section({
   }
 }, sectionElements);
 
-//Создание карточек из массива
-initialCards.forEach((item) =>{
-  createCard(item, sectionElements);
-})
-//Рендер карточек из массива
-cardSection.renderItems(initialCards);
-
 // Экземпляр класса попапа добавления карточек
 const popupAdd = new PopupWithForm(".popup-add", handleCardFormSubmit);
 
 // Экземпляр класса попапа профиля
 const popupProfile = new PopupWithForm(".popup_edit", handleProfileFormSubmit);
 
-// Экземпляр класса информации о пользователе
-const userInfo = new UserInfo ({
-  nameElement: profileName, 
-  infoElement: profileDescription
-});
+// Экземпляр класс попапа удаления карточки
+const popupDelete = new PopupConfirm(".popup_delete", handleDeleteCardFormSubmit);
 
 // Экземпляр класса попапа картинки
 const popupImage = new PopupWithImage(".popup_img");
 
+const api = new Api();
 // Экземпляры классов валидации форм попапов
 const popupEditValidation = new FormValidator (validationConfig, popupEdit);
 popupEditValidation.enableValidation();
 const popupAddValidation = new FormValidator (validationConfig, popupCard);
 popupAddValidation.enableValidation();
 
+
 //Добавление карточки через форму
 function handleCardFormSubmit (values) {
-  const card = {
-    name: values.title,
-    link: values.link
-  };
-  const newCard = createCard(card, sectionElements);
-  cardSection.addItem(newCard);
-  popupAdd.close();
-  popupAddValidation.disableSubmitButton();
+  addCard(values.title, values.link)
+    .then(res => {
+      const card = {
+        name: values.title,
+        link: values.link
+      };
+      const newCard = createCard(card, sectionElements);
+      cardSection.addItem(newCard);
+      popupAdd.close();
+      popupAddValidation.disableSubmitButton();
+  })
 }
 
 // Функция обработчика сабмита попапа профиля 
 function handleProfileFormSubmit(values) {
-  userInfo.setUserInfo(values.name, values.description)
-  popupProfile.close();
+  editProfile(values.name, values.description)
+    .then(res => {
+      userInfo.setUserInfo(values.name, values.description)
+      popupProfile.close();
+    })
+}
+
+const handleDeleteCardFormSubmit = (evt, card) => {
+  evt.preventDefault();
+  deleteCard(card._id)
+    .then(() => {
+      console.log(card._id)
+      card._handleDeleteCard();
+      popupDelete.close();
+  })
 }
 
 // Функция добавления информации из профиля в инпуты
@@ -90,9 +118,13 @@ function handleProfileFormOpen() {
   popupDescription.value = userData.description;
   popupProfile.open();
 }
+
 // Слушатель открытия попапа профиля
 buttonEdit.addEventListener("click", handleProfileFormOpen);
 
+function handlePopupDeleteOpen(card) {
+  popupDelete.open(card)
+}
 // Функция открытия попапа картинки
 function handleOpenPopupImage(name, link) {
   popupImage.open(name, link);
@@ -107,6 +139,7 @@ buttonAdd.addEventListener("click", function() {
 popupProfile.setEventListeners();
 popupAdd.setEventListeners();
 popupImage.setEventListeners();
+popupDelete.setEventListeners();
 
 
 

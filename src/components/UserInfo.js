@@ -12,8 +12,13 @@ export class UserInfo {
     return userInfo;
   }
 
-  setUserInfo(name, description) {
+  setUserInfo(name, description, id) {
     this._name.textContent = name;
     this._info.textContent = description;
+    this._id = id;
+  }
+
+  getID() {
+    return this._id
   }
 }
