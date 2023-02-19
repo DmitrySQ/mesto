@@ -1,74 +1,78 @@
-
 export class Api {
-  
-}
-// Проверка ответа от сервера
-const handleResponse = (res) => {
-  if (res.ok) {
-    return res.json()
-  }
-  return Promise.reject(`Ошибка: ${res.status}`)
-}
-//получаение карточки
-export const getCards = async () => {
-  const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-59/cards', {
-    headers: {
-      authorization: 'bd60ed56-65da-400e-aff3-13c3befce97c'
-    }
-  })
-  return handleResponse(res)
+  constructor(data) {
+    this._baseUrl = data.baseUrl;
+    this._headers = data.headers;
   }
 
-
-//получение пользователя
-export const getUser = async () => {
-  const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-59/users/me', {
-    headers: {
-      authorization: 'bd60ed56-65da-400e-aff3-13c3befce97c'
+  _handleResponse(res) {
+    if (res.ok) {
+      return res.json();
     }
-  })
-  return handleResponse(res)
-}
-//Отправка созданной карточки на сервер
-export const addCard = async (name,link) => {
-  const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-59/cards', {
-    method: 'POST',
-    headers: {
-      authorization: 'bd60ed56-65da-400e-aff3-13c3befce97c',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: name,
-      link: link
-    })
-  })
-  return handleResponse(res)
-}
-//Отправка информации профиля 
-export const editProfile = async (name,about) => {
-  const res = await fetch('https://mesto.nomoreparties.co/v1/cohort-59/users/me', {
-    method: 'PATCH',
-    headers: {
-      authorization: 'bd60ed56-65da-400e-aff3-13c3befce97c',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: name,
-      about: about
-    })
-  })
-  return handleResponse(res)
-}
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
 
-export const deleteCard = (_id) => {
-  const res = fetch(`https://mesto.nomoreparties.co/v1/cohort-59/cards/${_id}`, {
-    method: "DELETE",
-    headers: {
-      authorization: 'bd60ed56-65da-400e-aff3-13c3befce97c',
-      'Content-Type': 'application/json'
-    }
-  })
-  console.log(res)
-  return handleResponse(res);
-}
+  getUserInfo() {
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: this._headers,
+    })
+    .then(this._handleResponse);
+  }
 
+  setUserInfo(name, about) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: name,
+        about: about
+      }),
+    })
+    .then(this._handleResponse);
+  }
+
+  addNewAvatar(avatar) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: avatar,
+      }),
+    })
+    .then(this._handleResponse);
+  }
+
+  getInitialCards() {
+    return fetch(`${this._baseUrl}/cards`, {
+      headers: this._headers,
+    })
+    .then(this._handleResponse);
+  }
+
+  createCard(name, link) {
+    return fetch(`${this._baseUrl}/cards`, {
+      method: 'POST',
+      body: JSON.stringify({
+        name: name,
+        link: link,
+      }),
+      headers: this._headers,
+    })
+    .then(this._handleResponse);
+  }
+
+  deleteCard(id) {
+    return fetch(`${this._baseUrl}/cards/${id}`, {
+      method: 'DELETE',
+      headers: this._headers,
+    })
+    .then(this._handleResponse);
+  }
+
+  setLike(cardID, method) {
+    return fetch(`${this._baseUrl}/cards/${cardID}/likes`, {
+      method: method,
+      headers: this._headers,
+    })
+    .then(this._handleResponse);
+  }
+}

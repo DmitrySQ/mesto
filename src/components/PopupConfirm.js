@@ -6,16 +6,25 @@ export class PopupConfirm extends Popup{
     this._handleSubmitForm = handleSubmitForm;
     this._form = this._popup.querySelector(".popup__form");
     this._submitButton = this._popup.querySelector(".popup__button-submit")
-    console.log(this._submitButton)
+    this._submitButtonText = this._submitButton.textContent;
   }
 
-  setEventListener() {
-    super.setEventListener();
-    this._submitButton.addEventListener('click', (evt) => {
+  setEventListeners() {
+    super.setEventListeners();
+    this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this._handleSubmitForm(this._card);
     })
   }  
+
+  loadingButton(isLoading, text = "Удаление..."){
+    if (isLoading) {
+      this._submitButton.textContent = text;
+    } 
+    else {
+      this._submitButton.textContent = this._submitButtonText;
+    }
+  }
 
   open(card) {
     this._card = card;
