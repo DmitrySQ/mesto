@@ -18,7 +18,7 @@ export class PopupWithForm extends Popup{
     return this._values;
   }
 
-  loadingButton(isLoading, text = "Сохранение...") {
+  setIsLoading(isLoading, text = "Сохранение...") {
     if (isLoading) {
       this._submitButton.textContent = text;
     } 

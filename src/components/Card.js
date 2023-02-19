@@ -6,7 +6,7 @@ export class Card {
     this._id = cardData._id;
     this._likes = cardData.likes;
     this._templateSelector = templateSelector;
-    this._handlePopupDeleteOpen = handlePopupDeleteOpen;
+    this._handleDeleteClick = handlePopupDeleteOpen;
     this._handleImageClick = handleOpenPopupImage;
     this._handleLikeClick = handleLikeClick;
     this._userID = userID;
@@ -21,26 +21,27 @@ export class Card {
     return cardElement;
   }
   deleteCard() {
-    this.removeCard();
+    this._element.remove();
+    this._element = null;
   }
 
-  handleLikeButtonClick(){
+  toggleLike(){
     this._buttonLike.classList.toggle("element__button_active");
   }
 
-  _toogleLikeButton() {
+  _toggleLikeButton() {
     if (this.isLiked()) {
-      this.handleLikeButtonClick();
+      this.toggleLike();
     }
   }
 
-  _handleRemoveDeleteButton(){
-    if (this._ownerID != this._userID){
+  _checkDeleteButtonVisibility(){
+    if (this._ownerID !== this._userID){
       this._buttonDelete.classList.add('element__button-trash_hide')
     }
   }
 
-  _showCounterLikes() {
+  _updateLikesCounter() {
     this._likeCounter.textContent = this._likes.length;
   }
 
@@ -53,14 +54,10 @@ export class Card {
     this._element.querySelector(".element__title").textContent = this._name;
     this._buttonDelete = this._element.querySelector('.element__button-trash');
     this._buttonLike = this._element.querySelector('.element__button-like');
-    this._setIventListeners();
-    this.removeCard = () => {
-      this._element.remove();
-      this._element = null;
-    }
-    this._handleRemoveDeleteButton();
-    this._toogleLikeButton();
-    this._showCounterLikes();
+    this._setEventListeners();
+    this._checkDeleteButtonVisibility();
+    this._toggleLikeButton();
+    this._updateLikesCounter();
 
     return this._element;
   }
@@ -70,20 +67,24 @@ export class Card {
     return isLikedByMe
   }
 
-  _setIventListeners() {
+  _setEventListeners() {
     this._buttonLike.addEventListener('click', () => {
       this._handleLikeClick(this._id, this);
     })
     this._buttonDelete.addEventListener('click', () => {
-      this._handlePopupDeleteOpen(this);
+      this._handleDeleteClick(this);
     })
     this._elementImage.addEventListener('click', () => {
       this._handleImageClick(this._name, this._link);
     })
   }
 
+  getCardID() {
+    return this._id;
+  }
+  
   setLikesValue(likes) {
     this._likes = likes
-    this._likeCounter.textContent = likes.length;
+    this._updateLikesCounter()
   }
 }

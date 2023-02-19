@@ -1,5 +1,5 @@
 // Секция для добавления карточек
-export const sectionElements = document.querySelector(".elements");
+export const cardsContainer = document.querySelector(".elements");
 
 // Элементы профиля
 export const profileName = document.querySelector(".profile__name");

@@ -9,7 +9,8 @@ export class UserInfo {
     const userInfo = {};
     userInfo.name = this._name.textContent;
     userInfo.description = this._info.textContent;
-
+    userInfo.avatar = this._avatar.textContent;
+    
     return userInfo;  
   }
 

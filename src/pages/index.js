@@ -1,6 +1,6 @@
 
 import { Card } from "../components/Card.js";
-import { sectionElements, profileName, profileDescription, 
+import { cardsContainer, profileName, profileDescription, 
         profileImage, buttonEdit, buttonAdd, 
         popupEdit, popupName, popupDescription, 
         popupCard, popupChangeAvatar} from "../utils/constants.js";
@@ -25,7 +25,7 @@ const api = new Api({
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([userData, cards]) => {
     userInfo.setUserInfo(userData.name, userData.about, userData.avatar, userData._id);
-    cardSection.renderItems(cards)
+    cardsSection.renderItems(cards.reverse())
   })
   .catch((err) => {
     console.log(err);
@@ -40,13 +40,13 @@ const userInfo = new UserInfo ({
 });
 
 //Рендер карточек
-const cardSection = new Section({
+const cardsSection = new Section({
   renderer: (cardData) => {
     const card = new Card(cardData, '#element-template', handleOpenPopupImage, handlePopupDeleteOpen, handleLikeClick, userInfo.getID());
     const cardElement = card.generateCard();
     return cardElement
   },
-}, sectionElements);
+}, cardsContainer);
 
 // Экземпляр класса попапа добавления карточек
 const popupAdd = new PopupWithForm(".popup-add", handleCardFormSubmit);
@@ -61,10 +61,10 @@ const popupDelete = new PopupConfirm(".popup_delete", handleDeleteCardFormSubmit
 
 //Добавление карточки через форму
 function handleCardFormSubmit (values) {
-  popupAdd.loadingButton(true);
+  popupAdd.setIsLoading(true);
   api.createCard(values.title, values.link)
     .then((cardData) => {
-      cardSection.addItem(cardData)
+      cardsSection.addItem(cardData)
       popupAdd.close();
       popupAddValidation.disableSubmitButton();
   })
@@ -72,13 +72,13 @@ function handleCardFormSubmit (values) {
       console.log(err)
   })
     .finally(() => {
-      popupAdd.loadingButton(false)
+      popupAdd.setIsLoading(false)
   })
 }
 
 // Функция обработчика сабмита попапа профиля 
 function handleProfileFormSubmit(values) {
-  popupProfile.loadingButton(true);
+  popupProfile.setIsLoading(true);
   api.setUserInfo(values.name, values.description)
     .then((userData) => {
       userInfo.setUserInfo(userData.name, userData.about, userData.avatar, userData._id)
@@ -88,13 +88,15 @@ function handleProfileFormSubmit(values) {
       console.log(err)
   })
     .finally(() => {
-      popupProfile.loadingButton(false);
+      popupProfile.setIsLoading(false);
   })
 }
-
+// Я попробовал реализовать функцию, но никак не приходит в голову, как передать элемент карточки, 
+// если в колбек мы не должны передавать никаких аргументов(имею ввиду экземпляр карточки).
+// направьте пожалуйста, было бы интересно разобраться, но сейчас в голову ничего не приходит
 function handleDeleteCardFormSubmit(card) {
-  popupDelete.loadingButton(true)
-  api.deleteCard(card._id)
+  popupDelete.setIsLoading(true)
+  api.deleteCard(card.getCardID())
     .then(() => {
       card.deleteCard();
       popupDelete.close();
@@ -103,12 +105,12 @@ function handleDeleteCardFormSubmit(card) {
     console.log(err)
   })
   .finally(() => {
-    popupDelete.loadingButton(false)
+    popupDelete.setIsLoading(false)
   })
 }
 
 function handleAvatarFormSubmit(values) {
-  popupAvatar.loadingButton(true);
+  popupAvatar.setIsLoading(true);
   api.addNewAvatar(values.avatar)
     .then((userData) => {
       userInfo.setUserInfo(userData.name, userData.about, userData.avatar, userData._id);
@@ -118,7 +120,7 @@ function handleAvatarFormSubmit(values) {
     console.log(err)
   })
   .finally(() => {
-    popupAvatar.loadingButton(false)
+    popupAvatar.setIsLoading(false)
   })
 }
 
@@ -142,7 +144,7 @@ const handleLikeClick = (cardId, card) => {
   const method = card.isLiked() ? 'DELETE' : 'PUT'
   api.setLike(cardId, method)
     .then((res) => {
-      card.handleLikeButtonClick();
+      card.toggleLike();
       card.setLikesValue(res.likes);
   })
   .catch((err) => {

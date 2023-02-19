@@ -17,7 +17,7 @@ export class PopupConfirm extends Popup{
     })
   }  
 
-  loadingButton(isLoading, text = "Удаление..."){
+  setIsLoading(isLoading, text = "Удаление..."){
     if (isLoading) {
       this._submitButton.textContent = text;
     } 
@@ -28,7 +28,6 @@ export class PopupConfirm extends Popup{
 
   open(card) {
     this._card = card;
-    console.log(card._id)
     super.open();
   }
 }
